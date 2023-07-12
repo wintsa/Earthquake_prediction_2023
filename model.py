@@ -106,8 +106,8 @@ class LSTMCell (nn.Module):
         correction = self.hidden_to_result(next_h)[:, 0, :, :]
         prediction = torch.cat([self.freq_map for i in range(correction.shape[0])], dim=0)
         
-        prediction[:, 0, :, :] -= correction 
-        prediction[:, 1, :, :] += correction
+        prediction[:, 0, :, :] = prediction[:, 0, :, :] - correction
+        prediction[:, 1, :, :] = prediction[:, 1, :, :] + correction
         
         return (next_c, next_h), prediction
         
